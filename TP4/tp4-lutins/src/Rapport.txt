@@ -1,0 +1,33 @@
+Indice: pour bien répondre à ces deux questions, essayez de voir si votre réponse fonctionne dans votre application. (Pour chacune, ce ne sont que quelques lignes à modifier dans le nuanceur!)
+
+
+Q1: Dans la partie 1, des points de taille fixe sont affichés à l'écran. Leur taille est donnée par la variable gl_PointSize.
+    
+i) Comment faire pour que la taille d'un point varie de façon inverse à sa distance du plan avant du volume de visualisation, c'est-à-dire qu'il soit plus gros lorsqu'il est plus près de la caméra ?
+   On veut utiliser la distance par rapport à la caméra afin de calculer la taille d'un point. Pour ce faire, il faut
+   multiplier la position du sommet par la matrice de visualisation (et biensûr par la matrice de modélisation).
+   Ensuite, il suffit de diviser la taille du point (gl_PointSize) par la profondeur (gl_Position.z). On multiplie par
+   -1 afin d'obtenir une valeur positive puisque la profondeur est une valeur négative et on veut obtenir une valeur
+   positive pour la taille du point.
+    
+ii) Donnez l'énoncé GLSL que vous utiliseriez pour implanter ceci.
+
+    gl_Position = matrVisu * matrModel * Vertex;
+    gl_PointSize = - (gl_in[0].gl_PointSize / gl_Position.z);
+
+Q2: Pour afficher un flocon qui tourne sur lui-même, on a appliqué une matrice de rotation sur les quatre sommets.
+    
+
+i) Pourrait-on faire tourner le flocon en appliquant la même matrice de rotation sur les coordonnées de texture plutôt que sur les coordonnées des sommets?
+
+	Oui, mais le résultat ne sera pas pareil.
+
+
+ii) Quel problème observerions-nous alors et comment devrait-il être corrigé?
+
+
+    Afin de facilement répondre à cette question, vous pouvez remplacer (temporairement!) l'image du flocon de ce TP par l'image de l'échiquier du TP3.  Si vous appliquez ensuite la matrice de rotation sur les coordonnées de texture plutôt que sur les coordonnées des sommets, vous pourrez alors très bien voir ce qui se passe.
+
+	
+	On remarque que la texture ne tourne pas autour du bon axe, la texture tourne autour d'un axe à l'"extérieur" du lutin.
+	Il faut que la texture tourne autour de l'axe qui traverse le centre du lutin.

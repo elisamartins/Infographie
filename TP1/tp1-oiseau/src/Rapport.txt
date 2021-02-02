@@ -1,0 +1,40 @@
+Q1: Lorsque l'on construit notre robot dans la partie 1 du TP, on effectue plusieurs transformations OpenGL sur chaque partie de l'oiseau.
+    Ici on voudrait déplacer un objet quelconque sur un point arbitraire, faire un changement d'échelle puis une rotation et un enfin
+    un dernier déplacement. Écrivez la série de commandes OpenGL pour arriver à ces résultats en affichant l'objet (pas besoin d'arguments dans les fonctions) et
+    surtout l'ordre des commandes que vous auriez donné dans le code pour arriver à ce résultat en justifiant pourquoi (vous pouvez détailler
+    le calcul mathématique matriciel pour vous aider à justifier).
+
+	//La dernière translation T2
+	matrModel.Translate(...);
+
+	matrModel.Rotate(...);
+	matrModel.Scale(...);
+	
+	//La première translation T1
+	matrModel.Translate(...); 
+
+Les transformations demandées peuvent être représentés par ces produits matriciels
+	M0 <- I
+	M1 <- M0 * T1
+	M2 <- M1 * S
+	M3 <- M2 * R
+	M4 <- M3 * T2
+
+	p' = M4 * p
+
+Les transformations s'accumulent jusqu'à ce que l'objet soit affiché, donc on combine ces transformations et on obtient:
+	p' = T1 * S * R * T2 * p
+
+*p étant la matrice originale et p' la matrice résultante après les transformations
+
+C'est alors la deuxième translation qui doit être appliquée en premier (puisqu'elle est située à droite de la matrice original sur laquelle on applique
+les transformations), puis la rotation, le changement d'échelle suivi de la première translation si on veut arriver au résultat espéré.
+	
+Q2: Dans ce TP dans la partie 2, on vous a demandé d'utiliser des VBOs pour afficher la fameuse théière!
+    Visuellement rien ne change, mais quelles sont les différences entre les deux méthodes utilisées ?
+    Pourquoi d'ailleurs ne remarque-t-on aucune différence ?
+	
+	Il est plus efficace d'utiliser des VBOs pour l'affichage.
+	Les VBOs permettent de «stocker» un tableau de sommets et un tableau de connectivité sur le GPU et permettent de ne pas avoir à constamment faire appel à la fonction glVertex() pour chaque sommet	
+	à chaque fois qu'on veut afficher une primitive. Avec les VBOs on diminue alors les échanges entre le CPU et le GPU.	
+	Visuellement, il n'y a pas de différence entre les deux méthodes parce qu'on affiche les mêmes sommets avec la même connectivité. Il s'agit des mêmes données.

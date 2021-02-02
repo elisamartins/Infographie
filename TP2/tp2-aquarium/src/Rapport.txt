@@ -1,0 +1,33 @@
+Q1: Dans l'exemple du cours qui affiche un miroir avec une scène composée
+    d'un cube et de deux cylindres, on doit utiliser un plan de coupe afin
+    de ne pas afficher en avant du miroir le cylindre qui est placé en
+    arrière du miroir. Pourquoi un tel plan de coupe n'est-il pas nécessaire
+    ici alors que les parois de l'aquarium sont toutes des miroirs ?
+
+	Parce qu'il n'y a pas d'objet qui est sensé être en arrière du miroir.
+	Toutes les théières sont contenues devant les 4 miroirs. Dans l'exemple,
+	le plan de coupe permet de couper ce qui est situé derrière le plan du miroir
+	(le cylindre rouge) pour ne pas qu'il apparaisse dans la réflexion.
+
+Q2: Dans le cadre de ce TP, les réflexions sur les parois sont uniques,
+    c'est-à-dire qu'on n'y voit qu'une seule réflexion : celle du contenu de
+    l'aquarium.  Toutefois, en présence de deux miroirs face à face, on
+    devrait s'attendre à des réflexions multiples, comme illustré dans la
+    figure 10 de l'énoncé. Expliquez succinctement ce qui devrait être fait
+    dans ce TP pour afficher un niveau supplémentaire de réflexion dans
+    chaque miroir, c'est-à-dire afficher la réflexion simple (un seul
+    niveau) d'une paroi dans l'autre qui lui fait face.
+    (On souhaite continuer à utiliser le tampon de stencil, sans s'embarquer
+    à faire du tracé de rayons.)
+    Au total, combien de fois devrait-on alors tracer la scène ?
+
+	Pour afficher un niveau supplémentaire, il faudrait tracer
+	la scène deux fois par parois en plus de la scène "originale"
+	au centre. Pour un total de 9 fois.
+
+	Donc, on affiche les scènes comme on le fait actuellement, puis on
+	ajoute le «deuxième niveau de scènes» après le «premier niveau de scènes»
+	réfléchis. C'est-à-dire qu'on affiche pas les scènes les unes par dessus
+	les autres, il faut qu'elles soient côte-à-côte. Pour le 2ème niveau,
+	on n'inverse pas l'axe puisque on a la même orientation que la scène originale
+	après la réflexion d'une réflexion.

@@ -1,0 +1,33 @@
+Q1: On peut utiliser une atténuation en fonction de la distance, comme prévu
+    dans le modèle d'illumination, afin de produire l'image de droite
+    affichée dans la figure 14. Dites comment vous implanteriez cette
+    atténuation dans les nuanceurs. Quels sont les énoncés que vous
+    ajouteriez ou modifierez ? À quel endroit et dans quel(s) nuanceur(s) ?
+    Votre méthode devrait s'appliquer autant pour l'illumination avec
+    Gouraud ou avec Phong.
+
+	Tout d'abord, on calcul le facteur d'atténuation avec:
+ 	« facteur d'atténuation = 1 / distance^2 ». On peut utiliser
+	cette formule, puisque dans le cadre du tp les sources de lumières
+	sont proches des objets.
+
+	Pour Gouraud, on multiple le facteur d'atténuation obtenu avec la couleur dans
+	le nuanceur de sommet. Dans la condition, « if ( typeIllumination == 0 ) » dans le main,
+	on ajoute à la fin « AttribsOut.couleur *= facteur d'atténuation ».
+
+	Pour Phong, c'est la même chose, mais dans le nuanceur de fragments. Dans la condition,
+	« if ( typeIllumination == 1 ) », on ajoute juste avant le clamp: « FragColor *= facteur d'atténuation ».
+
+
+Q2: Vous avez probablement remarqué que même en demandant un très grand
+    niveau de tessellation, le générateur de tessellation ne produira pas
+    une tessellation plus fine que le niveau maximum donné par la constante
+    GL_MAX_TESS_GEN_LEVEL.  (On peut obtenir la valeur de cette constante
+    avec glGet() et elle doit être au moins 64.)
+    Que doit-on alors faire si on veut, malgré tout, une tessellation deux
+    fois plus fine dans chaque direction?
+
+	Pour avoir une tessellation deux fois plus fine dans chaque direction,
+	on peut diviser chaque primitive en deux avant de les envoyer à la tesselation.
+	Ceci pourrait être fait en ajoutant des sommets à la création de ces primitives ou
+	dans un nuanceur de géométrie.
